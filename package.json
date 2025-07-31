@@ -1,23 +1,20 @@
 {
-  "name": "express-control-server",
+  "name": "bun-control-server",
   "version": "1.0.0",
-  "description": "CCTV를 모니터링하고 센서 노드로부터 감지된 위험에 따라 대응하는 스마트 팩토리 시스템의 내부 서버",
-  "main": "app.js",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "start": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "bun app.js",
+    "start": "bun app.js",
+    "check": "tsc --noEmit"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/KSEB-Rescue-Beam/express-control-server.git"
+  "devDependencies": {
+    "@types/bun": "latest"
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/KSEB-Rescue-Beam/express-control-server/issues"
+  "peerDependencies": {
+    "typescript": "^5"
   },
-  "homepage": "https://github.com/KSEB-Rescue-Beam/express-control-server#readme",
   "dependencies": {
-    "nodemon": "^3.1.10"
+    "elysia": "^1.3.7"
   }
 }
