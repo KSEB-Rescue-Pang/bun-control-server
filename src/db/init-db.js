@@ -20,15 +20,15 @@ async function init() {
     const schema = await readFile(schemaPath, 'utf-8');
     const seed = await readFile(seedPath, 'utf-8');
 
-    console.log('📦 Creating schema...');
+    console.log('Creating schema...');
     await client.query(schema);
 
     console.log('🌱 Seeding data...');
     await client.query(seed);
 
-    console.log('✅ DB 초기화 완료');
+    console.log('DB 초기화 완료');
   } catch (err) {
-    console.error('❌ Error:', err);
+    console.error('Error:', err);
   } finally {
     await client.end();
   }
