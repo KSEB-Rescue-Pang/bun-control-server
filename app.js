@@ -1,5 +1,5 @@
 import { serve } from 'bun'
-import './src/db/init-db.js'  // DB 연결
+import { createConnection} from './src/db/index.js'  
 
 serve({
   port: 3000,
@@ -27,5 +27,6 @@ serve({
     return new Response('Not Found', { status: 404 })
   },
 })
+createConnection() // DB 연결
 
 console.log('Server running at http://localhost:3000')

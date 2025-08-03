@@ -1,3 +1,12 @@
+-- 기존 테이블 삭제 (순서 주의: 외래키 참조 때문에)
+DROP TABLE IF EXISTS outbound_list CASCADE;
+DROP TABLE IF EXISTS inbound_list CASCADE;
+DROP TABLE IF EXISTS picking_tasks CASCADE;
+DROP TABLE IF EXISTS tote_items CASCADE;
+DROP TABLE IF EXISTS totes CASCADE;
+DROP TABLE IF EXISTS workers CASCADE;
+DROP TABLE IF EXISTS products CASCADE;
+
 -- [1] products
 CREATE TABLE products (
     product_id       SERIAL PRIMARY KEY,
