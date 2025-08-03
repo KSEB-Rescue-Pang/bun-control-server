@@ -1,0 +1,11 @@
+product_id,name,weight,length,width,height,expiration_date,category,is_stackable,is_fragile,orientation,danger_class,turnover_rate,seasonal_tag,promotion,img
+1,생수 500ml,0.5,6.5,6.5,20,2026-12-01,음료,True,False,False,,5.4,여름,False,https://example.com/img/water500.png
+2,탄산음료 1.5L,1.5,8.5,8.5,32,2026-11-15,음료,True,False,False,,4.8,여름,False,https://example.com/img/soda15.png
+3,컵라면,0.3,12.0,12.0,10,2026-10-10,즉석식품,True,False,False,,7.1,,True,https://example.com/img/noodle.png
+4,초콜릿,0.2,10.0,7.0,2,2026-09-01,과자,True,False,False,,3.2,봄,False,https://example.com/img/choco.png
+5,전기포트,1.1,20.0,15.0,23,,소형가전,False,True,True,,0.9,,False,https://example.com/img/kettle.png
+6,무선청소기,2.8,25.0,22.0,110,,생활가전,False,True,True,,0.6,,False,https://example.com/img/vacuum.png
+7,선풍기,3.5,40.0,40.0,60,,계절가전,False,True,True,,1.8,여름,False,https://example.com/img/fan.png
+8,전기장판,2.0,45.0,35.0,10,,계절가전,True,False,False,,1.2,겨울,True,https://example.com/img/mat.png
+9,휴지 30롤,4.5,60.0,30.0,30,,생필품,True,False,False,,3.9,,False,https://example.com/img/tissue.png
+10,부탄가스,0.3,7.0,7.0,20,,위험물,False,False,False,1,2.5,,False,https://example.com/img/butane.png
