@@ -1,5 +1,5 @@
 import { serve } from 'bun'
-import './src/db/index.js'  // DB 연결
+import './src/db/init-db.js'  // DB 연결
 
 serve({
   port: 3000,
