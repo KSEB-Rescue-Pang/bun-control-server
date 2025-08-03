@@ -12,7 +12,6 @@ CREATE TABLE products (
     is_fragile       BOOLEAN DEFAULT FALSE,
     orientation      BOOLEAN DEFAULT FALSE,
     danger_class     VARCHAR(20),
-    season_tag       VARCHAR(20),
     turnover_rate    NUMERIC(10, 2),
     seasonal_tag     VARCHAR(20),
     promotion        BOOLEAN DEFAULT FALSE,
