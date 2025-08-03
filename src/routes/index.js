@@ -1,4 +1,4 @@
-import { loginWorker, startWork, finishWork, returnTote } from './workers.js';
+import { loginWorker, startWork, finishWork, returnTote, reportError } from './workers.js';
 import { scanTote } from './totes.js';
 
 export const router = async (req) => {
@@ -30,6 +30,11 @@ export const router = async (req) => {
     if (req.method === 'POST' && pathParts[2] === 'return') {
       return returnTote(req);
     }
+  }
+  
+  // 오류 보고: POST /{work_type}/{worker_id}/product/error
+  if (pathParts.length === 4 && req.method === 'POST' && pathParts[2] === 'product' && pathParts[3] === 'error') {
+    return reportError(req);
   }
   
   return new Response('Not Found', { status: 404 });
