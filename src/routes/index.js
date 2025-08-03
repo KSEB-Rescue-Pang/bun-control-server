@@ -1,4 +1,4 @@
-import { loginWorker } from './workers.js';
+import { loginWorker, startWork, finishWork } from './workers.js';
 import { scanTote } from './totes.js';
 
 export const router = async (req) => {
@@ -14,6 +14,16 @@ export const router = async (req) => {
     // 토트 스캔: POST /{work_type}/{worker_id}/scan
     if (req.method === 'POST' && pathParts[2] === 'scan') {
       return scanTote(req);
+    }
+    
+    // 작업 시작: POST /{work_type}/{worker_id}/start
+    if (req.method === 'POST' && pathParts[2] === 'start') {
+      return startWork(req);
+    }
+    
+    // 작업 완료: POST /{work_type}/{worker_id}/finish
+    if (req.method === 'POST' && pathParts[2] === 'finish') {
+      return finishWork(req);
     }
   }
   
