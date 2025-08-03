@@ -35,4 +35,4 @@ export const scanTote = async (req) => {
     }
     return new Response('Internal Server Error', { status: 500 });
   }
-}; 
+};

@@ -1,5 +1,5 @@
-import { loginWorker, startWork, finishWork, returnTote, reportError } from './workers.js';
-import { scanTote } from './totes.js';
+import { loginWorker, startWork, finishWork, returnTote, reportError } from '../controllers/workerController.js';
+import { scanTote } from '../controllers/toteController.js';
 
 export const router = async (req) => {
   const url = new URL(req.url);
