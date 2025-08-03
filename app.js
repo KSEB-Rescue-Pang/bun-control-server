@@ -1,10 +1,11 @@
 import { serve } from 'bun'
 import { createConnection} from './src/db/index.js'  
+import { router } from './src/routes/index.js'
 
 serve({
   port: 3000,
   fetch(req) {
-    return new Response('Not Found', { status: 404 })
+    return router(req);
   },
 })
 createConnection() // DB 연결
