@@ -1,4 +1,4 @@
-import { loginWorker, startWork, finishWork } from './workers.js';
+import { loginWorker, startWork, finishWork, returnTote } from './workers.js';
 import { scanTote } from './totes.js';
 
 export const router = async (req) => {
@@ -24,6 +24,11 @@ export const router = async (req) => {
     // 작업 완료: POST /{work_type}/{worker_id}/finish
     if (req.method === 'POST' && pathParts[2] === 'finish') {
       return finishWork(req);
+    }
+    
+    // 토트박스 반납: POST /{work_type}/{worker_id}/return
+    if (req.method === 'POST' && pathParts[2] === 'return') {
+      return returnTote(req);
     }
   }
   
