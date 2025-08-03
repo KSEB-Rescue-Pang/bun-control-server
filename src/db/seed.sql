@@ -12,7 +12,7 @@ COPY outbound_list(outbound_id, product_id, deadline, status)
 FROM '/Users/kunwoopark/WS/KSEB-bootCamp/bun-control-server/src/db/csv/outbound_list.csv' DELIMITER ',' CSV HEADER;
 
 -- workers는 INSERT문
-INSERT INTO workers (worker_id, name, height, type) VALUES
+INSERT INTO workers (worker_id, name, height, workType) VALUES
 ('9334-4300', '김민수', 161.7, 'OB'),
 ('8667-2188', '이지은', 172.5, 'OB'),
 ('4187-5025', '박지훈', 181.5, 'OB'),
