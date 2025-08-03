@@ -1,9 +1,9 @@
 export const loginWorker = ({ body }) => {
-  const { worker_id, type } = body
+  const { worker_id, work_type } = body
   // DB 저장 + 응답 반환
   return {
     message: 'Worker registered successfully',
-    assigned_type: type,
+    assigned_work_type: work_type,
     timestamp: new Date().toISOString()
   }
 }

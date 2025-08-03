@@ -32,7 +32,7 @@ CREATE TABLE workers (
     worker_id       VARCHAR(64) PRIMARY KEY,
     name            VARCHAR(100) NOT NULL,
     height          NUMERIC(5,2),
-    type            VARCHAR(2) NOT NULL CHECK (type IN ('IB', 'OB'))
+    work_type       VARCHAR(2) NOT NULL CHECK (work_type IN ('IB', 'OB'))
 );
 
 -- [3] totes
@@ -59,7 +59,7 @@ CREATE TABLE tote_items (
 CREATE TABLE picking_tasks (
     task_id             SERIAL PRIMARY KEY,
     tote_id             VARCHAR(64) NOT NULL,
-    type                VARCHAR(2) CHECK (type IN ('IB', 'OB')) NOT NULL,
+    work_type           VARCHAR(2) CHECK (work_type IN ('IB', 'OB')) NOT NULL,
     deadline            TIMESTAMP NOT NULL,
     assigned_worker_id  VARCHAR(64),
     status              VARCHAR(20) DEFAULT '대기',
@@ -108,10 +108,10 @@ GROUP BY product_id, to_location_id;
 CREATE OR REPLACE VIEW vw_blocked_rack AS
 SELECT DISTINCT
     CASE
-        WHEN pt.type = 'IB' THEN ti.to_location_id
+        WHEN pt.work_type = 'IB' THEN ti.to_location_id
         ELSE ti.from_location_id
     END AS location_id,
-    pt.type
+    pt.work_type
 FROM tote_items ti
 JOIN picking_tasks pt ON ti.tote_id = pt.tote_id
 WHERE pt.status IN ('대기', '진행');
