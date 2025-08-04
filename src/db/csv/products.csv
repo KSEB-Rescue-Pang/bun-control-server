@@ -1,11 +1,51 @@
 product_id,name,weight,length,width,height,expiration_date,category,is_stackable,is_fragile,orientation,danger_class,turnover_rate,seasonal_tag,promotion,img
-1,생수 500ml,0.5,6.5,6.5,20,2026-12-01,음료,True,False,False,,5.4,여름,False,https://example.com/img/water500.png
-2,탄산음료 1.5L,1.5,8.5,8.5,32,2026-11-15,음료,True,False,False,,4.8,여름,False,https://example.com/img/soda15.png
-3,컵라면,0.3,12.0,12.0,10,2026-10-10,즉석식품,True,False,False,,7.1,,True,https://example.com/img/noodle.png
-4,초콜릿,0.2,10.0,7.0,2,2026-09-01,과자,True,False,False,,3.2,봄,False,https://example.com/img/choco.png
-5,전기포트,1.1,20.0,15.0,23,,소형가전,False,True,True,,0.9,,False,https://example.com/img/kettle.png
-6,무선청소기,2.8,25.0,22.0,110,,생활가전,False,True,True,,0.6,,False,https://example.com/img/vacuum.png
-7,선풍기,3.5,40.0,40.0,60,,계절가전,False,True,True,,1.8,여름,False,https://example.com/img/fan.png
-8,전기장판,2.0,45.0,35.0,10,,계절가전,True,False,False,,1.2,겨울,True,https://example.com/img/mat.png
-9,휴지 30롤,4.5,60.0,30.0,30,,생필품,True,False,False,,3.9,,False,https://example.com/img/tissue.png
-10,부탄가스,0.3,7.0,7.0,20,,위험물,False,False,False,1,2.5,,False,https://example.com/img/butane.png
+1,LG 생활건강 샴푸,4.46,48,5,19,2025-11-29,생필품,Y,Y,N,5,23,여름,N,https://example.com/P001.jpg
+2,포카칩 오리지널,3.44,32,9,19,2026-05-28,식품,Y,Y,Y,1,12,겨울,N,https://example.com/P002.jpg
+3,오뚜기 진라면,1.5,29,11,34,2025-11-30,잡화,Y,N,Y,4,19,,N,https://example.com/P003.jpg
+4,백산수 500ml,0.37,21,14,42,2025-12-13,생필품,Y,Y,Y,4,17,봄,Y,https://example.com/P004.jpg
+5,오예스,4.24,13,31,33,2026-02-28,음료,Y,N,Y,0,19,,Y,https://example.com/P005.jpg
+6,지우개 세트,1.51,12,16,50,2026-06-24,생필품,N,Y,N,4,10,여름,Y,https://example.com/P006.jpg
+7,신라면 5입,0.14,39,15,49,2026-04-13,식품,N,Y,N,3,30,여름,N,https://example.com/P007.jpg
+8,깨끗한 나라 휴지,2.6,40,43,43,2025-10-30,잡화,N,N,N,3,10,,Y,https://example.com/P008.jpg
+9,센소다인 치약,3.58,23,24,49,2026-05-20,생필품,Y,N,Y,0,1,겨울,Y,https://example.com/P009.jpg
+10,페브리즈 섬유탈취제,2.44,29,18,18,2025-12-30,생필품,N,N,N,4,26,여름,N,https://example.com/P010.jpg
+11,모나미 볼펜,1.14,26,9,41,2026-03-04,생필품,Y,Y,N,3,17,겨울,N,https://example.com/P011.jpg
+12,츄파춥스 믹스,2.97,42,7,32,2025-11-05,잡화,N,Y,Y,0,3,가을,N,https://example.com/P012.jpg
+13,KF94 마스크,0.2,13,30,25,2026-04-18,생필품,Y,Y,N,4,13,봄,N,https://example.com/P013.jpg
+14,오징어 땅콩,4.63,26,38,9,2026-02-16,생필품,Y,N,Y,1,8,봄,Y,https://example.com/P014.jpg
+15,맛동산,2.03,30,34,24,2026-03-11,음료,Y,N,Y,0,6,겨울,N,https://example.com/P015.jpg
+16,AA 건전지,3.56,33,47,46,2025-09-30,가전,Y,N,N,0,20,여름,Y,https://example.com/P016.jpg
+17,에이스 크래커,2.3,17,32,6,2025-11-20,잡화,N,Y,Y,5,3,봄,N,https://example.com/P017.jpg
+18,로지텍 키보드,1.38,28,13,36,2026-06-02,잡화,Y,Y,N,2,21,가을,N,https://example.com/P018.jpg
+19,불닭볶음면,1.89,29,19,47,2025-11-27,생필품,N,Y,N,1,5,가을,Y,https://example.com/P019.jpg
+20,닥터유 에너지바,3.1,31,49,13,2026-03-03,식품,N,Y,Y,1,10,,N,https://example.com/P020.jpg
+21,노트북 클리너,1.06,43,50,27,2026-02-02,잡화,N,N,Y,3,29,겨울,N,https://example.com/P021.jpg
+22,초코송이,0.29,18,21,28,2026-06-12,잡화,N,Y,N,2,13,겨울,N,https://example.com/P022.jpg
+23,삼다수 2L,0.5,18,27,27,2025-12-09,생필품,Y,N,Y,0,2,봄,N,https://example.com/P023.jpg
+24,나가사끼 짬뽕,0.25,23,40,39,2025-09-05,식품,Y,Y,Y,0,16,여름,N,https://example.com/P024.jpg
+25,포스트 콘푸라이트,0.84,38,46,40,2026-01-19,식품,N,Y,N,0,28,봄,Y,https://example.com/P025.jpg
+26,감자깡,4.62,6,21,35,2026-06-25,생필품,Y,N,Y,3,6,여름,N,https://example.com/P026.jpg
+27,샤오미 손선풍기,3.91,50,20,34,2026-04-20,가전,N,Y,Y,2,4,가을,N,https://example.com/P027.jpg
+28,삼성 마우스,3.38,15,48,33,2026-06-08,가전,Y,N,Y,0,29,여름,N,https://example.com/P028.jpg
+29,도브 비누,3.67,41,16,12,2026-06-26,생필품,Y,N,N,2,26,여름,Y,https://example.com/P029.jpg
+30,초코파이 12개입,2.47,38,42,38,2026-04-18,잡화,N,N,N,0,3,,Y,https://example.com/P030.jpg
+31,참이슬 소주,3.47,7,28,50,2026-07-07,잡화,Y,Y,Y,0,24,가을,Y,https://example.com/P031.jpg
+32,카누 커피믹스,1.55,15,49,5,2026-04-29,음료,Y,Y,N,3,17,겨울,N,https://example.com/P032.jpg
+33,탐사수 2L,2.69,30,19,43,2026-07-14,음료,Y,Y,N,0,2,봄,Y,https://example.com/P033.jpg
+34,샤프란 섬유유연제,4.05,23,30,26,2026-03-23,잡화,Y,N,Y,4,27,여름,N,https://example.com/P034.jpg
+35,바나나맛우유,3.69,35,13,12,2025-09-06,잡화,Y,Y,Y,3,11,겨울,N,https://example.com/P035.jpg
+36,맥심 모카골드,1.72,47,42,18,2025-10-20,생필품,Y,N,Y,2,26,여름,Y,https://example.com/P036.jpg
+37,홈런볼,0.75,19,12,16,2026-05-08,식품,Y,N,N,4,13,,N,https://example.com/P037.jpg
+38,오랄비 칫솔,2.59,35,43,17,2026-07-24,가전,Y,N,Y,0,23,봄,N,https://example.com/P038.jpg
+39,비타500 100ml,1.46,43,25,22,2026-05-14,잡화,Y,Y,N,2,29,가을,N,https://example.com/P039.jpg
+40,몽쉘 크림케이크,2.95,16,42,25,2026-05-10,생필품,Y,Y,N,1,10,겨울,N,https://example.com/P040.jpg
+41,크리넥스 마스크,0.47,42,43,26,2026-01-05,생필품,N,N,Y,1,25,여름,Y,https://example.com/P041.jpg
+42,딸기우유 200ml,1.0,14,34,10,2026-06-18,식품,N,N,N,4,14,,N,https://example.com/P042.jpg
+43,아이리버 이어폰,2.34,34,38,33,2026-05-13,가전,Y,Y,Y,0,3,가을,N,https://example.com/P043.jpg
+44,코카콜라 500ml,0.15,38,14,24,2026-05-05,음료,N,Y,N,1,6,,Y,https://example.com/P044.jpg
+45,3M 테이프,3.75,34,41,10,2025-09-26,잡화,N,N,Y,0,8,가을,N,https://example.com/P045.jpg
+46,팔도 비빔면,3.02,14,17,47,2025-12-12,잡화,N,Y,Y,5,28,여름,N,https://example.com/P046.jpg
+47,USB 멀티탭,1.79,20,50,22,2026-02-19,가전,Y,N,Y,3,13,여름,Y,https://example.com/P047.jpg
+48,에비앙 500ml,0.85,39,46,30,2025-09-28,식품,Y,N,Y,2,21,봄,N,https://example.com/P048.jpg
+49,누네띠네,1.34,6,37,40,2026-03-05,잡화,Y,N,Y,5,3,가을,Y,https://example.com/P049.jpg
+50,햇반 210g,0.73,7,43,46,2026-08-03,식품,N,N,N,3,8,여름,N,https://example.com/P050.jpg
