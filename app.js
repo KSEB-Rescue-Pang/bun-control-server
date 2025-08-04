@@ -1,5 +1,5 @@
 import { serve } from 'bun'
-import { createConnection} from './src/db/index.js'  
+import { createConnection} from './db/index.js'  
 import { router } from './src/routes/index.js'
 
 serve({
