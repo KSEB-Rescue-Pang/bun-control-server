@@ -1,15 +1,15 @@
 -- products
 COPY products(product_id, name, weight, length, width, height, expiration_date, category,
               is_stackable, is_fragile, orientation, danger_class, turnover_rate, seasonal_tag, promotion, img)
-FROM '/Users/kunwoopark/WS/KSEB-bootCamp/bun-control-server/src/db/csv/products.csv' DELIMITER ',' CSV HEADER;
+FROM '/app/db/csv/products.csv' DELIMITER ',' CSV HEADER;
 
 -- inbound_list
-COPY inbound_list(inbound_id, product_id, arrival_time, status)
-FROM '/Users/kunwoopark/WS/KSEB-bootCamp/bun-control-server/src/db/csv/inbound_list.csv' DELIMITER ',' CSV HEADER;
+COPY inbound_list(inbound_id, product_id, arrival_time)
+FROM '/app/db/csv/inbound_list.csv' DELIMITER ',' CSV HEADER;
 
 -- outbound_list
-COPY outbound_list(outbound_id, product_id, deadline, status)
-FROM '/Users/kunwoopark/WS/KSEB-bootCamp/bun-control-server/src/db/csv/outbound_list.csv' DELIMITER ',' CSV HEADER;
+COPY outbound_list(outbound_id, product_id, deadline)
+FROM '/app/db/csv/outbound_list.csv' DELIMITER ',' CSV HEADER;
 
 -- workers는 INSERT문
 INSERT INTO workers (worker_id, name, height, work_type) VALUES
