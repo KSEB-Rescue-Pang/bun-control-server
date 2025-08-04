@@ -16,23 +16,23 @@ services:
     env_file:
       - .env
 
-  # bun:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   container_name: bun-server
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - db
-  #   environment:
-  #     DB_HOST: db
-  #     DB_USER: ${DB_USER}
-  #     DB_PASSWORD: ${DB_PASSWORD}
-  #     DB_NAME: ${DB_NAME}
-  #     DB_PORT: ${DB_PORT}
-  #   env_file:
-  #     - .env
+  bun:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bun-server
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DB_PORT: ${DB_PORT}
+    env_file:
+      - .env
 
 volumes:
   db_data:
