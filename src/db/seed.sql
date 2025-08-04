@@ -11,6 +11,10 @@ FROM '/Users/kunwoopark/WS/KSEB-bootCamp/bun-control-server/src/db/csv/inbound_l
 COPY outbound_list(outbound_id, product_id, deadline, status)
 FROM '/Users/kunwoopark/WS/KSEB-bootCamp/bun-control-server/src/db/csv/outbound_list.csv' DELIMITER ',' CSV HEADER;
 
+-- totes (토트박스 테이블)
+COPY totes(tote_id, assigned_worker_id, status, last_assigned_at)
+FROM '/Users/kunwoopark/WS/KSEB-bootCamp/bun-control-server/src/db/csv/totes.csv' DELIMITER ',' CSV HEADER;
+
 -- workers는 INSERT문
 INSERT INTO workers (worker_id, name, height, work_type) VALUES
 ('1234', '김민수', 161.7, 'OB'),
