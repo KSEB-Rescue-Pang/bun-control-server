@@ -7,7 +7,6 @@ export type InboundItem = {
   img: string;
   location_id?: string;
   tote_id?: string;
-  priority?: number;
 }
 
 export type ToteBox = {
