@@ -1,4 +1,6 @@
 import { createConnection, closeConnection } from '../../../db/index.js';
+import fs from 'fs';
+import path from 'path';  
 
 // TODO: 나중에 inbound_list 를 많이 늘려서 10개씩 끊어가도록 수정해야 함
 
@@ -8,6 +10,7 @@ type InboundItem = {
   product_id: string;
   name: string;
   weight: number;
+  img: string;
   location_id?: string;
   tote_id?: string;
 }
@@ -22,6 +25,12 @@ type DatabaseClient = {
   query: (query: string, params?: any[]) => Promise<{ rows: any[] }>;
 }
 
+type shelf = {
+  location_id: string;
+  ib_distance: number;
+  ob_distance: number;
+}
+
 // 대기 중인 인바운드 데이터 가져오기
 export async function getWaitingInboundItems(): Promise<InboundItem[]> {
   const client = await createConnection();
@@ -33,6 +42,7 @@ export async function getWaitingInboundItems(): Promise<InboundItem[]> {
         il.product_id,
         p.name,
         p.weight,
+        p.img
       FROM inbound_list il
       JOIN products p ON il.product_id = p.product_id
       WHERE il.status = '대기'
@@ -82,7 +92,7 @@ export async function getActiveToteIds(): Promise<string[]> {
 }
 
 // 사용 가능한 토트 10개 찾기 (100번부터 시작)
-function getAvailableToteIds(activeToteIds: string[]): string[] {
+export function getAvailableToteIds(activeToteIds: string[]): string[] {
   const availableTotes: string[] = [];
   let toteNumber = 100;
   
@@ -102,15 +112,12 @@ function getAvailableToteIds(activeToteIds: string[]): string[] {
 
 // 토트박스에 18kg 이하로 아이템을 담고 토트박스 번호를 부여하는 함수
 export function assignToteBoxes(items: InboundItem[], availableTotes: string[]): ToteBox[] {
-  // 다음 사용할 토트 번호 찾기
-  let nextToteNumber = 100;
-  while (availableTotes.includes(`TOTE-${nextToteNumber}`)) {
-    nextToteNumber++;
-  }
+  // 사용 가능한 토트 풀에서 순서대로 사용
+  let toteIndex = 0;
 
   const totes: ToteBox[] = [];
   let currentTote: ToteBox = {
-    tote_id: `TOTE-${nextToteNumber}`,
+    tote_id: availableTotes[toteIndex]!,
     items: [],
     totalWeight: 0,
   };
@@ -121,9 +128,16 @@ export function assignToteBoxes(items: InboundItem[], availableTotes: string[]):
     
     if (currentTote.totalWeight + itemWeight > 18) {
       totes.push(currentTote);
-      nextToteNumber++;
+      toteIndex++;
+      
+      // 토트 풀이 부족하면 에러
+      // TODO: 이 부분은 따로 나중에 구현
+      if (toteIndex >= availableTotes.length) {
+        throw new Error(`토트 풀이 부족합니다. 현재 ${availableTotes.length}개 준비됨, ${toteIndex + 1}개 필요`);
+      }
+      
       currentTote = {
-        tote_id: `TOTE-${nextToteNumber}`,
+        tote_id: availableTotes[toteIndex]!,
         items: [],
         totalWeight: 0
       };
@@ -163,18 +177,84 @@ async function saveToteItemsToDB(client: DatabaseClient, totes: ToteBox[]): Prom
   }
 }
 
-// TODO: assignToteBoxes 에서 만들어진대로 tote_items 테이블에 추가하는 함수
+
+
+  
+  // tote_items에서 location_id가 없는 아이템들에 랜덤 위치 할당
+  export async function assignRandomLocations() {
+    const client = await createConnection();
+    
+    try {
+      // location_id가 없는 tote_items 조회
+      const selectQuery = `
+        SELECT ti.tote_id, ti.inbound_id, ti.product_id 
+        FROM tote_items ti
+        WHERE ti.location_id IS NULL
+      `;
+      
+      const result = await client.query(selectQuery);
+      console.log(`위치 할당이 필요한 아이템: ${result.rows.length}개`);
+  
+      // config.json에서 A존 위치 목록 로드
+      const locations = loadLocationsFromConfig();
+  
+      // 각 아이템에 랜덤 위치 할당
+      for (const item of result.rows) {
+        const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+        
+        const updateQuery = `
+          UPDATE tote_items 
+          SET location_id = $1
+          WHERE inbound_id = $2
+        `;
+        
+        await client.query(updateQuery, [randomLocation, item.inbound_id]);
+        console.log(`인바운드 ID ${item.inbound_id}에 위치 ${randomLocation} 할당`);
+      }
+  
+      console.log('위치 할당 완료');
+      
+    } finally {
+      await closeConnection(client);
+    }
+  }
+  
+
+
+  // config.json에서 위치 정보 로드하는 함수
+function loadLocationsFromConfig() {
+    try {
+      const configPath = path.join(process.cwd(), 'data', 'config.json');
+      const configData = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+      
+      // A존 위치만 필터링해서 location_id 추출
+      const aZoneLocations = configData.shelves
+        .filter((shelf: { location_id: string }) => shelf.location_id.startsWith('A01'))
+        .map((shelf: { location_id: string }) => shelf.location_id);
+      
+      // 일단 A 존에 대해서만 할당하게끔 했음
+      console.log(`A존 위치 ${aZoneLocations.length}개 로드됨`);
+      return aZoneLocations;
+    } catch (error) {
+      console.error('config.json 로드 실패:', error.message);
+      // 대체 위치 목록 (fallback)
+      return [
+        'A01-R01-T', 'A01-R01-B', 'A01-R02-T', 'A01-R02-B',
+        'A01-R03-T', 'A01-R03-B', 'A01-R04-T', 'A01-R04-B'
+      ];
+    }
+  }
 
 // 실행 예시
 if (import.meta.main) {
   console.log('토트박스 할당 프로세스 시작...\n');
   
-  // 대기 중인 아이템과 사용 중인 토트 ID 조회
+  // 대기 중인 아이템과 사용 가능한 토트 조회
   const items = await getWaitingInboundItems();
-  const activeToteIds = await getActiveToteIds();
+  const availableTotes = getAvailableToteIds(await getActiveToteIds());
   
   // 토트박스 할당
-  const totes = assignToteBoxes(items, activeToteIds);
+  const totes = assignToteBoxes(items, availableTotes);
   
   if (totes.length === 0) {
     console.log('처리할 아이템이 없습니다.');
