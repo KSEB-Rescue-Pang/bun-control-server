@@ -81,14 +81,14 @@ CREATE TABLE picking_tasks (
     task_id             SERIAL PRIMARY KEY,
     tote_id             VARCHAR(64),  -- FK 제거
     work_type           VARCHAR(2)  NOT NULL CHECK ( work_type IN ('IB','OB') ),
-    deadline            TIMESTAMP   NOT NULL,
+    deadline            TIMESTAMP,
     assigned_worker_id  VARCHAR(64),
     status              VARCHAR(20) NOT NULL DEFAULT '대기',
     priority            INTEGER,
     product_id          INTEGER     NOT NULL REFERENCES products(product_id)
         ON UPDATE CASCADE ON DELETE RESTRICT,
     quantity            INTEGER     NOT NULL CHECK (quantity >= 0),
-    location_id         location_id_dom NOT NULL,
+    location_id         location_id_dom,
     FOREIGN KEY (assigned_worker_id) REFERENCES workers(worker_id)
         ON UPDATE CASCADE ON DELETE SET NULL
 );
