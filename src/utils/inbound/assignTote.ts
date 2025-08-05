@@ -1,35 +1,9 @@
 import { createConnection, closeConnection } from '../../../db/index.js';
+import type { InboundItem, ToteBox, DatabaseClient, shelf } from '../../types/common.js';
 import fs from 'fs';
 import path from 'path';  
 
-// TODO: 나중에 inbound_list 를 많이 늘려서 10개씩 끊어가도록 수정해야 함
-
-// 타입 정의
-type InboundItem = {
-  inbound_id: string;
-  product_id: string;
-  name: string;
-  weight: number;
-  img: string;
-  location_id?: string;
-  tote_id?: string;
-}
-
-type ToteBox = {
-  tote_id: string;
-  items: InboundItem[];
-  totalWeight: number;
-}
-
-type DatabaseClient = {
-  query: (query: string, params?: any[]) => Promise<{ rows: any[] }>;
-}
-
-type shelf = {
-  location_id: string;
-  ib_distance: number;
-  ob_distance: number;
-}
+// TODO: 나중에 inbound_list 를 많이 늘려서 10개씩 끊어가도록 함수를 더 추가해야 함
 
 // 대기 중인 인바운드 데이터 가져오기
 export async function getWaitingInboundItems(): Promise<InboundItem[]> {
@@ -176,11 +150,8 @@ async function saveToteItemsToDB(client: DatabaseClient, totes: ToteBox[]): Prom
     }
   }
 }
-
-
-
   
-  // tote_items에서 location_id가 없는 아이템들에 랜덤 위치 할당
+  // tote_items에서 location_id가 없는 아이템들에 일단 랜덤 위치 할당
   export function assignRandomLocations(zone: string, totes: ToteBox[]) {
     const locations = loadLocationsFromConfig(zone);
     for (const tote of totes) {
@@ -192,8 +163,6 @@ async function saveToteItemsToDB(client: DatabaseClient, totes: ToteBox[]): Prom
     return totes;
   }
   
-
-
   // config.json에서 위치 정보 로드하는 함수
 function loadLocationsFromConfig(zone: string) { 
     try {
@@ -217,31 +186,3 @@ function loadLocationsFromConfig(zone: string) {
       ];
     }
   }
-
-// 실행 예시
-if (import.meta.main) {
-  console.log('토트박스 할당 프로세스 시작...\n');
-  
-  // 대기 중인 아이템과 사용 가능한 토트 조회
-  const items = await getWaitingInboundItems();
-  const availableTotes = getAvailableToteIds(await getActiveToteIds());
-  
-  // 토트박스 할당
-  const totes = assignToteBoxes(items, availableTotes);
-  
-  if (totes.length === 0) {
-    console.log('처리할 아이템이 없습니다.');
-  } else {
-    console.log(`\n ${totes.length}개의 토트박스가 생성되었습니다.`);
-    
-    // 토트박스별 상세 정보 출력
-    totes.forEach((tote: ToteBox) => {
-      console.log(`\n[${tote.tote_id}]`);
-      console.log(`총 무게: ${tote.totalWeight}kg`);
-      console.log(`아이템 수: ${tote.items.length}개`);
-      tote.items.forEach((item: InboundItem) => {
-        console.log(`- 상품 ID: ${item.product_id}, 무게: ${item.weight}kg`);
-      });
-    });
-  }
-} 
