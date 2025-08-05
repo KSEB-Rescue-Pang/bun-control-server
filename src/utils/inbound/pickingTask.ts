@@ -1,5 +1,4 @@
 import type { ToteBox, InboundItem, DatabaseClient } from '../../types/common.js';
-import { createConnection, closeConnection } from '../../../db/index.js';
 
 // 지금 스케줄 있는 랙 가져오기 → 피킹태스크 만들어(순서 정해짐)
 
