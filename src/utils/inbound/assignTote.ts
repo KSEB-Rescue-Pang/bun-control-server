@@ -130,7 +130,7 @@ export function assignToteBoxes(items: InboundItem[], availableTotes: string[]):
 }
 
 // tote_items 테이블에 토트 아이템들을 저장하는 함수
-async function saveToteItemsToDB(client: DatabaseClient, totes: ToteBox[]): Promise<void> {
+export async function saveToteItemsToDB(client: DatabaseClient, totes: ToteBox[]): Promise<void> {
   for (const tote of totes) {
     console.log(`토트 ${tote.tote_id}에 ${tote.items.length}개 아이템 저장 중...`);
     
