@@ -43,7 +43,7 @@ CREATE TABLE workers (
     worker_id        VARCHAR(64) PRIMARY KEY,
     name             VARCHAR(100) NOT NULL,
     height           NUMERIC(5,2),
-    work_type        VARCHAR(2)  NOT NULL CHECK (work_type IN ('IB','OB')),
+    work_type        VARCHAR(2)  NOT NULL CHECK (work_type IN ('IB','OB'))
 );
 
 -- ===== Inbound / Outbound lists (단일 주문 기준, 수량 없음) =====
