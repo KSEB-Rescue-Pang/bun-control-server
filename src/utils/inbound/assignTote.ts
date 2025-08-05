@@ -182,7 +182,14 @@ async function saveToteItemsToDB(client: DatabaseClient, totes: ToteBox[]): Prom
   
   // tote_items에서 location_id가 없는 아이템들에 랜덤 위치 할당
   export function assignRandomLocations(zone: string, totes: ToteBox[]) {
-
+    const locations = loadLocationsFromConfig(zone);
+    for (const tote of totes) {
+      for (const item of tote.items) {
+        const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+        item.location_id = randomLocation;
+      }
+    }
+    return totes;
   }
   
 
