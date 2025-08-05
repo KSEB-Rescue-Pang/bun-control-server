@@ -43,7 +43,7 @@ CREATE TABLE workers (
     worker_id        VARCHAR(64) PRIMARY KEY,
     name             VARCHAR(100) NOT NULL,
     height           NUMERIC(5,2),
-    work_type        VARCHAR(2)  NOT NULL CHECK (work_type IN ('IB','OB')),
+    work_type        VARCHAR(2)  NOT NULL CHECK (work_type IN ('IB','OB'))
 );
 
 -- ===== Inbound / Outbound lists (단일 주문 기준, 수량 없음) =====
@@ -103,7 +103,8 @@ SELECT
     ti.product_id,
     COUNT(*) AS quantity
 FROM tote_items ti
-WHERE ti.status = '완료'
+JOIN picking_tasks pt ON ti.tote_id = pt.tote_id AND ti.product_id = pt.product_id
+WHERE pt.status = '완료'
   AND ti.inbound_id IS NOT NULL  -- 진열 물품만 필터링
 GROUP BY ti.location_id, ti.product_id;
 
@@ -115,7 +116,8 @@ SELECT
     ti.location_id,
     COUNT(*) AS quantity
 FROM tote_items ti
-WHERE ti.status = '완료'
+JOIN picking_tasks pt ON ti.tote_id = pt.tote_id AND ti.product_id = pt.product_id
+WHERE pt.status = '완료'
   AND ti.inbound_id IS NOT NULL  -- 진열된 물품만 포함
 GROUP BY ti.product_id, ti.location_id;
 
