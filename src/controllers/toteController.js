@@ -21,9 +21,10 @@ export const scanTote = async (req) => {
     const mockProducts = [
       { product_id: "p101", name: "다우닝 세제", quantity: 3, target_location_id: "Z03-R12-B1" },
       { product_id: "p202", name: "고무장갑", quantity: 5, target_location_id: "Z03-R12-B1" },
+      { product_id: "p202", name: "고무장갑", quantity: 5, target_location_id: "Z03-R12-1" },
     ];
     
-    return new Response(JSON.stringify({ products: mockProducts }), { 
+    return new Response(JSON.stringify({ tasks: mockProducts }), { 
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     });
