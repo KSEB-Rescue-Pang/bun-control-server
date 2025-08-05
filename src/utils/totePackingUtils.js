@@ -1,7 +1,7 @@
 import { createConnection } from '../db/index.js';
 
 /**
- * 간단한 토트박스 패킹 함수
+ * 간단한 토트박스 패킹 함수 - 개선된 버전
  */
 export const packAllInboundItems = async () => {
   let client;
@@ -10,9 +10,32 @@ export const packAllInboundItems = async () => {
     client = await createConnection();
     const results = [];
 
-    // 20개 토트박스만 사용
-    for (let i = 1; i <= 20; i++) {
-      const toteId = `TOTE${String(i).padStart(3, '0')}`;
+    // 🔥 개선: 사용 가능한 토트박스만 찾기
+    const availableQuery = `
+      SELECT tote_id 
+      FROM totes 
+      WHERE status = '대기' 
+      ORDER BY tote_id 
+      LIMIT 20
+    `;
+    
+    const availableResult = await client.query(availableQuery);
+    const availableTotes = availableResult.rows;
+    
+    if (availableTotes.length === 0) {
+      console.log('사용 가능한 토트박스가 없습니다.');
+      return { 
+        success: false, 
+        message: '사용 가능한 토트박스가 없습니다.',
+        available_totes: 0
+      };
+    }
+
+    console.log(`사용 가능한 토트박스: ${availableTotes.length}개`);
+
+    // 🔥 개선: 사용 가능한 토트박스만 반복 처리
+    for (let i = 0; i < availableTotes.length; i++) {
+      const toteId = availableTotes[i].tote_id;
       
       // 1. 대기 중인 아이템 확인
       const pendingQuery = `
@@ -55,8 +78,8 @@ export const packAllInboundItems = async () => {
       for (let j = 0; j < selectedItems.length; j++) {
         const item = selectedItems[j];
         
-        // 간단한 위치 할당: A01~A80 순차
-        const rackNumber = String((i - 1) * 4 + j + 1).padStart(2, '0');
+        // 🔥 개선: 위치 할당 로직 개선
+        const rackNumber = String(i * 4 + j + 1).padStart(2, '0');
         const toLocation = `A${rackNumber}-R01-B1`;
         
         // tote_items에 삽입
@@ -73,9 +96,9 @@ export const packAllInboundItems = async () => {
       
       // totes 테이블 업데이트
       await client.query(`
-        INSERT INTO totes (tote_id, status, last_assigned_at)
-        VALUES ($1, '준비완료', NOW())
-        ON CONFLICT (tote_id) DO UPDATE SET status = '준비완료'
+        UPDATE totes 
+        SET status = '준비완료', last_assigned_at = NOW()
+        WHERE tote_id = $1
       `, [toteId]);
       
       await client.query('COMMIT');
@@ -89,7 +112,7 @@ export const packAllInboundItems = async () => {
           product_id: item.product_id,
           name: item.name,
           weight: item.weight,
-          to_location: `A${String((i - 1) * 4 + idx + 1).padStart(2, '0')}-R01-B1`
+          to_location: `A${String(i * 4 + idx + 1).padStart(2, '0')}-R01-B1`
         }))
       };
       
@@ -100,6 +123,7 @@ export const packAllInboundItems = async () => {
     return {
       success: true,
       total_totes: results.length,
+      available_totes_count: availableTotes.length,
       results: results
     };
 
