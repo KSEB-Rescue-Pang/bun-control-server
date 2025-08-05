@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS totes CASCADE;
 DROP TABLE IF EXISTS workers CASCADE;
 DROP TABLE IF EXISTS products CASCADE;
 
--- [1] products
+-- products
 CREATE TABLE products (
     product_id       SERIAL PRIMARY KEY,
     name             VARCHAR(100) NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE products (
     img              TEXT
 );
 
--- [2] workers
+-- workers
 CREATE TABLE workers (
     worker_id       VARCHAR(64) PRIMARY KEY,
     name            VARCHAR(100) NOT NULL,
@@ -35,15 +35,8 @@ CREATE TABLE workers (
     work_type       VARCHAR(2) NOT NULL CHECK (work_type IN ('IB', 'OB'))
 );
 
--- [3] totes
-CREATE TABLE totes (
-    tote_id            VARCHAR(64) PRIMARY KEY,
-    assigned_worker_id VARCHAR(64),
-    status             VARCHAR(20) NOT NULL,
-    last_assigned_at   TIMESTAMP
-);
 
--- [4] tote_items
+-- tote_items
 CREATE TABLE tote_items (
     id                SERIAL PRIMARY KEY,
     tote_id           VARCHAR(64) NOT NULL,
@@ -55,7 +48,7 @@ CREATE TABLE tote_items (
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
 
--- [5] picking_tasks
+-- picking_tasks
 CREATE TABLE picking_tasks (
     task_id             SERIAL PRIMARY KEY,
     tote_id             VARCHAR(64) NOT NULL,
@@ -68,7 +61,7 @@ CREATE TABLE picking_tasks (
     FOREIGN KEY (assigned_worker_id) REFERENCES workers(worker_id)
 );
 
--- [6] inbound_list
+-- inbound_list
 CREATE TABLE inbound_list (
     inbound_id     SERIAL PRIMARY KEY,
     product_id     INTEGER NOT NULL,
@@ -77,7 +70,7 @@ CREATE TABLE inbound_list (
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
 
--- [7] outbound_list
+-- outbound_list
 CREATE TABLE outbound_list (
     outbound_id   SERIAL PRIMARY KEY,
     product_id    INTEGER NOT NULL,
@@ -86,7 +79,7 @@ CREATE TABLE outbound_list (
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
 
--- [8] vw_rack_inventory
+-- vw_rack_inventory
 CREATE OR REPLACE VIEW vw_rack_inventory AS
 SELECT
     to_location_id AS location_id,
@@ -95,7 +88,7 @@ SELECT
 FROM tote_items
 GROUP BY to_location_id, product_id;
 
--- [9] vw_products_location
+-- vw_products_location
 CREATE OR REPLACE VIEW vw_products_location AS
 SELECT
     product_id,
@@ -104,7 +97,7 @@ SELECT
 FROM tote_items
 GROUP BY product_id, to_location_id;
 
--- [10] vw_blocked_rack
+-- vw_blocked_rack
 CREATE OR REPLACE VIEW vw_blocked_rack AS
 SELECT DISTINCT
     CASE
