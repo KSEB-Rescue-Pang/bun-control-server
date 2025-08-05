@@ -2,50 +2,86 @@
 - 스마트랙 PTL 제어 
 - 작업자 태스크 할당 
 
+---
 
-# bun add
--  pg
+## 시작하기
 
-## Git Ignore 목록 및 이유
+### 필수 요구사항
+- Docker
+- Docker Compose
 
-Bun 서버 초기 세팅 시 불필요한 파일/디렉토리를 Git 추적 대상에서 제외합니다.
+### 초기 설정
+
+1. **환경 변수 설정**
+  - `.env` 파일을 프로젝트 루트에 두기
+
+2. **애플리케이션 실행**
+   ```bash
+   # 전체 스택 실행 (DB + Bun 서버)
+   docker-compose up --build
+   
+   # 백그라운드 실행
+   docker-compose up -d --build
+   ```
+
+3. **서버 접속 확인**
+   - 서버: http://localhost:3000
+   - 데이터베이스: localhost:5432
+
+### 개발 모드 실행
+```bash
+# 로컬에서 Bun 설치 후 실행
+bun install
+bun run dev
+```
 
 ---
 
-### 의존성 관련
-- `node_modules/`  
-  설치된 외부 라이브러리. 용량이 크고 언제든 재설치 가능하므로 제외합니다.
+## 데이터베이스 관리
 
-- `bun.lockb`  
-  초기화 시엔 제거하지만, 협업 시 의존성 고정을 위해 커밋 포함을 고려할 수 있습니다.
+### 데이터베이스 수정 시
 
+1. **파일 수정**
+   ```bash
+   # db/schema.sql - 스키마 수정
+   # db/seed.sql - 초기 데이터 수정  
+   # db/csv/ - CSV 데이터 수정
+   ```
+
+2. **데이터베이스 재시작**
+   ```bash
+   # 컨테이너 중지 및 볼륨 삭제 (데이터 초기화)
+   docker-compose down -v
+   
+   # 다시 시작
+   docker-compose up --build
+   ```
+
+### 데이터베이스 조회 시
+
+```bash
+# 환경변수 적용
+export $(cat .env | xargs)
+
+# PostgreSQL 컨테이너에 접속
+docker exec -it postgres-db psql -U $DB_USER -d $DB_NAME
+
+# 또는 직접 접속 -- 예시
+`docker exec -it postgres-db psql -U admin -d db`
+```
 ---
 
-### 환경 변수
-- `.env`, `.env.*`  
-  데이터베이스 접속정보, API 키 등 민감한 정보를 포함하므로 공개 저장소에 포함시키지 않습니다.
+## 유용한 명령어
 
----
-
-### TypeScript 관련
-- `*.tsbuildinfo`  
-  TypeScript의 인크리멘탈 빌드를 위한 캐시 파일로, Git에 포함할 필요는 없습니다.
-
----
-
-### 시스템 및 에디터 설정
-- `.DS_Store`  
-  macOS에서 자동 생성되는 시스템 파일로, 불필요합니다.
-
-- `.vscode/`  
-  개인별 에디터 설정 폴더로, 프로젝트 전반에 영향을 줄 수 있으므로 제외합니다.
-
----
-
-### 빌드 결과물
-- `dist/`, `build/`  
-  컴파일된 산출물로, 언제든 다시 생성 가능하므로 Git에 포함하지 않습니다.
-
----
-
-참고: `.gitignore` 설정은 팀 환경과 배포 방식에 따라 유동적으로 조정할 수 있습니다.
+```bash
+# 로그 확인
+docker-compose logs -f bun
+# 데이터베이스 로그 확인
+docker-compose logs -f db
+# 컨테이너 상태 확인
+docker-compose ps
+# 특정 서비스 재시작
+docker-compose restart db
+# 전체 정리
+docker-compose down -v --remove-orphans
+```

@@ -1,0 +1,364 @@
+{
+    "shelves": [
+      {
+        "location_id": "A01-R01-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R01-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R02-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R02-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R03-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R03-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R04-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R04-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R05-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R05-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R06-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R06-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R07-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R07-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R08-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R08-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R09-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R09-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R10-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R10-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R11-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R11-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R12-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "A01-R12-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R01-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R01-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R02-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R02-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R03-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R03-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R04-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R04-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R05-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R05-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R06-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R06-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R07-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R07-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R08-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R08-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R09-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R09-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R10-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R10-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R11-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R11-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R12-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "B01-R12-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R01-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R01-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R02-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R02-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R03-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R03-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R04-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R04-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R05-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R05-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R06-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R06-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R07-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R07-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R08-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R08-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R09-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R09-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R10-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R10-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R11-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R11-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R12-T",
+        "ib_distance": 3,
+        "ob_distance": 3
+      },
+      {
+        "location_id": "C01-R12-B",
+        "ib_distance": 3,
+        "ob_distance": 3
+      }
+    ]
+  }

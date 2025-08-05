@@ -1,0 +1,40 @@
+services:
+  db:
+    image: postgres:17.5
+    container_name: postgres-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./db/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+      - ./db/csv:/app/db/csv
+    env_file:
+      - .env
+
+  bun:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bun-server
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DB_PORT: ${DB_PORT}
+    volumes:
+      - ./src:/app/src  # 소스 코드 볼륨 마운트
+    env_file:
+      - .env
+
+volumes:
+  db_data:
