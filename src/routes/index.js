@@ -16,11 +16,6 @@ export const router = async (req) => {
       return scanTote(req);
     }
     
-    // 작업 시작: POST /{work_type}/{worker_id}/start
-    if (req.method === 'POST' && pathParts[2] === 'start') {
-      return startWork(req);
-    }
-    
     // 작업 완료: POST /{work_type}/{worker_id}/finish
     if (req.method === 'POST' && pathParts[2] === 'finish') {
       return finishWork(req);
