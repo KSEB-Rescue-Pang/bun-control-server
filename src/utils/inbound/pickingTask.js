@@ -55,7 +55,7 @@ export async function assignRandomLocations() {
       `;
       
       await client.query(updateQuery, [randomLocation, item.inbound_id]);
-      console.log(`  ✓ 인바운드 ID ${item.inbound_id}에 위치 ${randomLocation} 할당`);
+      console.log(`인바운드 ID ${item.inbound_id}에 위치 ${randomLocation} 할당`);
     }
 
     console.log('위치 할당 완료');

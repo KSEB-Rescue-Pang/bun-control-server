@@ -11,10 +11,8 @@ export async function getWaitingInboundItems() {
       SELECT 
         il.inbound_id,
         il.product_id,
-        p.name as product_name,
+        p.name,
         p.weight,
-        il.arrival_time,
-        il.status
       FROM inbound_list il
       JOIN products p ON il.product_id = p.product_id
       WHERE il.status = '대기'
@@ -26,7 +24,7 @@ export async function getWaitingInboundItems() {
     console.log(`📦 대기 중인 인바운드 아이템: ${result.rows.length}개`);
     
     result.rows.forEach(item => {
-      console.log(`  - ID: ${item.inbound_id}, 상품: ${item.product_name}, 무게: ${item.weight}kg, 도착시간: ${item.arrival_time}`);
+      console.log(`  - ID: ${item.inbound_id}, 상품: ${item.name}, 무게: ${item.weight}kg, 도착시간: ${item.arrival_time}`);
     });
     
     return result.rows;
