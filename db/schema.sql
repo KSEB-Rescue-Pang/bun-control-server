@@ -66,7 +66,7 @@ CREATE TABLE outbound_list (
 -- ===== Tote items (토트 내 개별 물품 단위) =====
 CREATE TABLE tote_items (
     id                SERIAL PRIMARY KEY,
-    tote_id           VARCHAR(64) NOT NULL,  -- FK 제거
+    tote_id           VARCHAR(64),  -- FK 제거
     product_id        INTEGER     NOT NULL REFERENCES products(product_id)
         ON UPDATE CASCADE ON DELETE RESTRICT,
     inbound_id        INTEGER     REFERENCES inbound_list(inbound_id)
