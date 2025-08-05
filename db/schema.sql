@@ -96,30 +96,44 @@ CREATE TABLE picking_tasks (
 
 -- ===== Views =====
 
--- 랙(칸)별 재고
+-- 랙(칸)별 재고 - 입고 완료 수량에서 출고 완료 수량 차감
 CREATE OR REPLACE VIEW vw_rack_inventory AS
 SELECT
-    ti.location_id,
-    ti.product_id,
-    COUNT(*) AS quantity
-FROM tote_items ti
-JOIN picking_tasks pt ON ti.tote_id = pt.tote_id AND ti.product_id = pt.product_id
-WHERE pt.status = '완료'
-  AND ti.inbound_id IS NOT NULL  -- 진열 물품만 필터링
-GROUP BY ti.location_id, ti.product_id;
+    location_id,
+    product_id,
+    SUM(CASE 
+        WHEN work_type = 'IB' THEN quantity 
+        WHEN work_type = 'OB' THEN -quantity 
+        ELSE 0 
+    END) AS quantity
+FROM picking_tasks
+WHERE status = '완료'  -- 완료된 작업만
+GROUP BY location_id, product_id
+HAVING SUM(CASE 
+    WHEN work_type = 'IB' THEN quantity 
+    WHEN work_type = 'OB' THEN -quantity 
+    ELSE 0 
+END) > 0;  -- 실제 재고가 있는 것만
 
 
 -- 상품별 위치: 각 상품이 어느 칸에 몇 개 있는지
 CREATE OR REPLACE VIEW vw_products_location AS
 SELECT
-    ti.product_id,
-    ti.location_id,
-    COUNT(*) AS quantity
-FROM tote_items ti
-JOIN picking_tasks pt ON ti.tote_id = pt.tote_id AND ti.product_id = pt.product_id
-WHERE pt.status = '완료'
-  AND ti.inbound_id IS NOT NULL  -- 진열된 물품만 포함
-GROUP BY ti.product_id, ti.location_id;
+    product_id,
+    location_id,
+    SUM(CASE 
+        WHEN work_type = 'IB' THEN quantity 
+        WHEN work_type = 'OB' THEN -quantity 
+        ELSE 0 
+    END) AS quantity
+FROM picking_tasks
+WHERE status = '완료'  -- 완료된 작업만
+GROUP BY product_id, location_id
+HAVING SUM(CASE 
+    WHEN work_type = 'IB' THEN quantity 
+    WHEN work_type = 'OB' THEN -quantity 
+    ELSE 0 
+END) > 0;  -- 실제 재고가 있는 것만
 
 
 -- 현재 스케줄된(진행/대기) 랙(칸)
