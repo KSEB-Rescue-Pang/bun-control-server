@@ -1,7 +1,7 @@
 import { createConnection, closeConnection } from '../../../db/index.js';
 
 /**
- * 대기 중인 출고 데이터 가져오기 (상품 정보 포함)
+ * 대기 중인 출고 데이터 가져오기 (상품 정보 및 재고 위치 포함)
  * @returns {Promise<Array>} 대기 중인 출고 아이템 목록 (마감시간 순으로 정렬)
  */
 export async function getOutboundList() {
@@ -15,9 +15,12 @@ export async function getOutboundList() {
         ol.deadline,
         p.name,
         p.weight,
-        p.img
+        p.img,
+        vpl.location_id,
+        vpl.quantity as available_quantity
       FROM outbound_list ol
       JOIN products p ON ol.product_id = p.product_id
+      LEFT JOIN vw_products_location vpl ON p.product_id = vpl.product_id
       WHERE ol.status = '대기'
       ORDER BY ol.deadline ASC
     `;
@@ -27,7 +30,7 @@ export async function getOutboundList() {
     console.log(`📦 대기 중인 출고 아이템: ${result.rows.length}개`);
     
     result.rows.forEach((item) => {
-      console.log(`  - ID: ${item.outbound_id}, 상품: ${item.name}, 무게: ${item.weight}kg, 마감: ${item.deadline}`);
+      console.log(`  - ID: ${item.outbound_id}, 상품: ${item.name}, 무게: ${item.weight}kg, 위치: ${item.location_id || '재고없음'}, 수량: ${item.available_quantity || 0}, 마감: ${item.deadline}`);
     });
     
     return result.rows;
@@ -139,17 +142,18 @@ export async function saveOutboundToteItems(totes) {
       
       for (const item of tote.items) {
         const insertQuery = `
-          INSERT INTO tote_items (tote_id, product_id, outbound_id)
-          VALUES ($1, $2, $3)
+          INSERT INTO tote_items (tote_id, product_id, outbound_id, location_id)
+          VALUES ($1, $2, $3, $4)
         `;
         
         await client.query(insertQuery, [
           tote.tote_id,
           item.product_id,
-          item.outbound_id
+          item.outbound_id,
+          item.location_id  // 위치 정보 추가
         ]);
         
-        console.log(`  - 저장: 토트=${tote.tote_id}, 상품ID=${item.product_id}, 출고ID=${item.outbound_id}`);
+        console.log(`  - 저장: 토트=${tote.tote_id}, 상품ID=${item.product_id}, 출고ID=${item.outbound_id}, 위치=${item.location_id}`);
       }
     }
     
