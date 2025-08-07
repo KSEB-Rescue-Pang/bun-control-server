@@ -1,3 +1,5 @@
+import { createConnection, closeConnection } from '../../db/index.js';
+
 export const loginWorker = async (req) => {
   const url = new URL(req.url);
   const pathParts = url.pathname.split('/').filter(Boolean);
@@ -80,9 +82,89 @@ export const returnTote = async (req) => {
   }
 
   try {
-    // TODO: DB에서 토트박스 반납 처리 (토트 상태 변경, 작업자 할당 해제 등)
-    console.log(`Worker ${worker_id} of type ${work_type} returned tote.`);
-    return new Response(null, { status: 200 });
+    const client = await createConnection();
+    
+    try {
+      // 해당 작업자가 진행 중인 모든 토트 작업들을 '완료' 상태로 변경
+      const updatePickingQuery = `
+        UPDATE picking_tasks 
+        SET status = '완료', assigned_worker_id = NULL
+        WHERE assigned_worker_id = $1 
+          AND work_type = $2 
+          AND status = '진행'
+      `;
+      
+      const pickingResult = await client.query(updatePickingQuery, [worker_id, work_type]);
+      
+      // 완료된 토트 ID들 조회
+      const getCompletedTotesQuery = `
+        SELECT DISTINCT tote_id 
+        FROM picking_tasks 
+        WHERE assigned_worker_id IS NULL 
+          AND work_type = $1 
+          AND status = '완료'
+          AND tote_id IN (
+            SELECT DISTINCT tote_id 
+            FROM picking_tasks 
+            WHERE assigned_worker_id = $2 
+              AND work_type = $1 
+              AND status = '진행'
+          )
+      `;
+      
+      const toteResult = await client.query(getCompletedTotesQuery, [work_type, worker_id]);
+      const completedTotes = toteResult.rows.map(row => row.tote_id);
+      
+      // 입고 작업의 경우 inbound_list도 '완료'로 변경
+      if (work_type === 'IB' && completedTotes.length > 0) {
+        const updateInboundQuery = `
+          UPDATE inbound_list 
+          SET status = '완료'
+          WHERE inbound_id IN (
+            SELECT ti.inbound_id 
+            FROM tote_items ti 
+            WHERE ti.tote_id = ANY($1)
+              AND ti.inbound_id IS NOT NULL
+          )
+        `;
+        
+        const inboundResult = await client.query(updateInboundQuery, [completedTotes]);
+        console.log(`Updated ${inboundResult.rowCount} inbound items to completed`);
+      }
+      
+      // 출고 작업의 경우 outbound_list도 '완료'로 변경
+      if (work_type === 'OB' && completedTotes.length > 0) {
+        const updateOutboundQuery = `
+          UPDATE outbound_list 
+          SET status = '완료'
+          WHERE outbound_id IN (
+            SELECT ti.outbound_id 
+            FROM tote_items ti 
+            WHERE ti.tote_id = ANY($1)
+              AND ti.outbound_id IS NOT NULL
+          )
+        `;
+        
+        const outboundResult = await client.query(updateOutboundQuery, [completedTotes]);
+        console.log(`Updated ${outboundResult.rowCount} outbound items to completed`);
+      }
+      
+      console.log(`Worker ${worker_id} of type ${work_type} returned ${pickingResult.rowCount} tasks.`);
+      
+      return new Response(JSON.stringify({ 
+        message: `${pickingResult.rowCount} tasks completed`,
+        worker_id,
+        work_type,
+        completed_totes: completedTotes
+      }), { 
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+      
+    } finally {
+      await closeConnection(client);
+    }
+    
   } catch (error) {
     console.error('Return tote error:', error);
     return new Response('Internal Server Error', { status: 500 });

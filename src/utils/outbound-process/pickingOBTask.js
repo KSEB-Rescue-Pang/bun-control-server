@@ -15,7 +15,7 @@ export async function getPickingRacks() {
         pt.assigned_worker_id,
         pt.status
       FROM picking_tasks pt
-      WHERE pt.status IN ('대기', '진행')
+      WHERE pt.status = '진행'
         AND pt.location_id IS NOT NULL
       ORDER BY pt.work_type, pt.location_id
     `;
