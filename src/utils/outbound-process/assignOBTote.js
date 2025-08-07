@@ -62,14 +62,14 @@ export function assignOutboundToteBoxes(outboundItems) {
     if (currentTote.totalWeight + itemWeight > 18) {
       // 현재 토트가 비어있지 않으면 저장
       if (currentTote.items.length > 0) {
-        currentTote.tote_id = `출고대기${toteNumber}`;
+        currentTote.tote_id = `TOTE-${200 + toteNumber}`;
         totes.push({ ...currentTote });
         toteNumber++;
       }
       
       // 새 토트 시작
       currentTote = {
-        tote_id: `출고대기${toteNumber}`,
+        tote_id: `TOTE-${200 + toteNumber}`,
         items: [item],
         totalWeight: itemWeight
       };
@@ -82,7 +82,7 @@ export function assignOutboundToteBoxes(outboundItems) {
 
   // 마지막 토트 추가
   if (currentTote.items.length > 0) {
-    currentTote.tote_id = `출고대기${toteNumber}`;
+    currentTote.tote_id = `TOTE-${200 + toteNumber}`;
     totes.push(currentTote);
   }
 
