@@ -49,3 +49,5 @@ export async function getPickingRacks() {
 if (import.meta.main) {
   getPickingRacks();
 }
+
+// bun src/utils/outbound-process/pickingOBTask.js

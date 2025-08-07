@@ -107,41 +107,6 @@ export async function saveOutboundToteItems(totes) {
       
       for (const item of tote.items) {
         const insertQuery = `
-          INSERT INTO tote_items (tote_id, product_id, outbound_id)
-          VALUES ($1, $2, $3)
-        `;
-        
-        await client.query(insertQuery, [
-          tote.tote_id,
-          item.product_id,
-          item.outbound_id
-        ]);
-        
-        console.log(`  - 저장: 토트=${tote.tote_id}, 상품ID=${item.product_id}, 출고ID=${item.outbound_id}`);
-      }
-    }
-    
-    console.log(`✅ 총 ${totes.length}개 토트의 아이템 저장 완료`);
-    
-  } finally {
-    await closeConnection(client);
-  }
-}
-
-
-/**
- * 토트 아이템들을 tote_items 테이블에 저장
- * @param {Array} totes - 토트 목록
- */
-export async function saveOutboundToteItems(totes) {
-  const client = await createConnection();
-  
-  try {
-    for (const tote of totes) {
-      console.log(`�� 토트 ${tote.tote_id}에 ${tote.items.length}개 아이템 저장 중...`);
-      
-      for (const item of tote.items) {
-        const insertQuery = `
           INSERT INTO tote_items (tote_id, product_id, outbound_id, location_id)
           VALUES ($1, $2, $3, $4)
         `;
@@ -187,3 +152,4 @@ export async function processOutboundToteAssignment() {
 }
 
 processOutboundToteAssignment()
+// bun src/utils/outbound-process/assignOBTote.js
