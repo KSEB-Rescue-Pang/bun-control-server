@@ -71,6 +71,44 @@ docker exec -it postgres-db psql -U $DB_USER -d $DB_NAME
 ```
 ---
 
+## MQTT 통합
+
+이 프로젝트는 PDA 스캔 요청 시 ESP32 하드웨어에게 MQTT를 통해 작업 할당 메시지를 전송합니다.
+
+### MQTT 기능
+- **브로커**: HiveMQ Cloud
+- **프로토콜**: MQTT over TLS (포트 8883)
+- **토픽**: `server/{shelf_id}/assign`
+- **페이로드**: 작업자 정보 + 제품 리스트
+
+### 환경변수 (MQTT)
+```env
+MQTT_BROKER_URL=your-hivemq-cluster.hivemq.cloud
+MQTT_BROKER_PORT=8883
+MQTT_USERNAME=your-username
+MQTT_PASSWORD=your-password
+MQTT_SECURE=true
+```
+
+### MQTT 테스트
+```bash
+# HiveMQ WebSocket 클라이언트
+# https://www.hivemq.com/demos/websocket-client/
+# 구독 토픽: server/+/assign
+
+# 스캔 API 테스트
+POST http://localhost:3000/IB/1238/scan
+{
+  "tote_id": "TOTE-102"
+}
+```
+
+### 상세 문서
+- [MQTT 통합 가이드](./docs/MQTT_INTEGRATION.md)
+- [API ↔ MQTT 플로우](./docs/API_MQTT_FLOW.md)
+
+---
+
 ## 유용한 명령어
 
 ```bash
