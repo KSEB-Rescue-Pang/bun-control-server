@@ -1,4 +1,5 @@
 import { createConnection, closeConnection } from '../../db/index.js';
+import { publishAssignToShelf } from '../../mqtt/mqtt.js';
 
 export const scanTote = async (req) => {
   const url = new URL(req.url);
@@ -46,7 +47,8 @@ export const scanTote = async (req) => {
           pt.quantity,
           pt.location_id,
           pt.priority,
-          p.name as product_name
+          p.name as product_name,
+          p.weight as product_weight
         FROM picking_tasks pt
         JOIN products p ON pt.product_id = p.product_id
         WHERE pt.tote_id = $1 
@@ -56,7 +58,7 @@ export const scanTote = async (req) => {
       `;
       
       const result = await client.query(selectQuery, [tote_id, work_type]);
-      
+
       const tasks = result.rows.map(row => ({
         task_id: row.task_id,
         product_id: row.product_id,
@@ -65,7 +67,39 @@ export const scanTote = async (req) => {
         location_id: row.location_id,
         priority: row.priority
       }));
-      
+
+      // MQTT Publish: server/{shelf_id}/assign
+      // shelf_id는 location_id에서 위치 부분만 사용: A01-R01-T -> A01-R01
+      const firstTask = tasks[0];
+      if (firstTask && firstTask.location_id) {
+        const [zoneRaw, rackRaw, posRaw] = firstTask.location_id.split('-');
+        // A01-R01-T -> shelf_id: A01-R01, position: t|b
+        const shelf_id = `${zoneRaw}-${rackRaw}`;
+        const position = posRaw?.toLowerCase() === 't' ? 't' : 'b';
+
+        // products payload 구성: 동일 location의 모든 태스크를 묶어서 전송
+        const products = tasks
+          .filter(t => t.location_id === firstTask.location_id)
+          .map(t => ({
+            product_id: String(t.product_id),
+            weight: t.product_weight != null ? String(t.product_weight) : null,
+            quantity: t.quantity,
+          }));
+
+        const payload = {
+          worker_id,
+          position,
+          work_type,
+          products,
+        };
+
+        try {
+          await publishAssignToShelf(shelf_id, payload, { qos: 1, retain: false });
+        } catch (e) {
+          console.error('MQTT publish 실패:', e);
+        }
+      }
+
       return new Response(JSON.stringify({ 
         tote_id,
         worker_id,
