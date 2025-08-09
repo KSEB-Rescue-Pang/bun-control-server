@@ -81,7 +81,7 @@ CREATE TABLE picking_tasks (
     task_id             SERIAL PRIMARY KEY,
     tote_id             VARCHAR(64),  -- FK 제거
     work_type           VARCHAR(2)  NOT NULL CHECK ( work_type IN ('IB','OB') ),
-    deadline            TIMESTAMP,
+    deadline            TIMESTAMP,  -- NOT NULL 제거
     assigned_worker_id  VARCHAR(64),
     status              VARCHAR(20) NOT NULL DEFAULT '대기',
     priority            INTEGER,

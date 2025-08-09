@@ -75,3 +75,5 @@ if (import.meta.main) {
     console.log('처리할 아이템이 없어서 종료되었습니다.');
   }
 } 
+
+// bun src/services/inbound.ts
