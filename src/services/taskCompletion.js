@@ -73,6 +73,8 @@ export async function executeFinishLogic(worker_id, current_location_id = null) 
     await client.query(updateQuery, [task_id]);
     
     // 3. 동일 토트의 다음 태스크 조회
+    // 스캔 시 여러 태스크가 이미 '진행' 상태일 수 있으므로,
+    // '진행' 또는 '대기' 중 현재 priority보다 큰 것 중 최솟값을 선택
     const nextTaskQuery = `
       SELECT pt.task_id, pt.location_id, pt.priority, pt.product_id, pt.quantity, p.weight
       FROM picking_tasks pt
@@ -80,25 +82,28 @@ export async function executeFinishLogic(worker_id, current_location_id = null) 
       WHERE pt.tote_id = $1 
         AND pt.work_type = $2 
         AND pt.assigned_worker_id = $3
-        AND pt.status = '대기'
+        AND pt.status IN ('진행','대기')
+        AND pt.priority > $4
       ORDER BY pt.priority ASC
       LIMIT 1
     `;
     
-    const nextResult = await client.query(nextTaskQuery, [tote_id, work_type, worker_id]);
+    const nextResult = await client.query(nextTaskQuery, [tote_id, work_type, worker_id, currentTask.priority]);
     
     if (nextResult.rows.length > 0) {
       // 4. 다음 태스크가 있으면 진행 상태로 변경
       const nextTask = nextResult.rows[0];
       
+      // 다음 태스크가 '대기'였다면 '진행'으로 변경 (이미 진행이면 그대로 둠)
       const updateNextQuery = `
         UPDATE picking_tasks 
         SET status = '진행'
-        WHERE task_id = $1
+        WHERE task_id = $1 AND status = '대기'
       `;
       await client.query(updateNextQuery, [nextTask.task_id]);
       
       // 5. 다음 위치로 MQTT 신호 발행
+      console.log(`[FinishLogic] 다음 태스크로 진행 예정 → task_id: ${nextTask.task_id}, location: ${nextTask.location_id}, priority: ${nextTask.priority}`);
       await publishNextTaskToMqtt(nextTask, worker_id, work_type);
       
       return {
@@ -145,6 +150,7 @@ async function publishNextTaskToMqtt(nextTask, worker_id, work_type) {
       }]
     };
 
+    console.log(`[FinishLogic] MQTT 발행 준비 → server/${shelf_id}/assign`, payload);
     await publishAssignToShelf(shelf_id, payload, { qos: 1, retain: false });
   } catch (error) {
     console.error('[FinishLogic] MQTT 발행 실패:', error);

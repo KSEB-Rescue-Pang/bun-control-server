@@ -94,6 +94,7 @@ export const scanTote = async (req) => {
         };
 
         try {
+          console.log(`[Scan] MQTT 발행 준비 → server/${shelf_id}/assign`, payload);
           await publishAssignToShelf(shelf_id, payload, { qos: 1, retain: false });
         } catch (e) {
           console.error('MQTT publish 실패:', e);
