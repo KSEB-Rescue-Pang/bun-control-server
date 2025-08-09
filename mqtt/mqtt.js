@@ -44,6 +44,14 @@ function ensureClient() {
         console.log('[MQTT] esp/ack 구독 완료');
       }
     });
+    
+    singletonClient.subscribe('esp/task/complete', { qos: 1 }, (err) => {
+      if (err) {
+        console.error('[MQTT] esp/task/complete 구독 실패:', err);
+      } else {
+        console.log('[MQTT] esp/task/complete 구독 완료');
+      }
+    });
   });
 
   singletonClient.on('reconnect', () => console.log('[MQTT] 재연결 시도 중...'));
@@ -58,6 +66,17 @@ function ensureClient() {
         console.log('[MQTT] esp/ack 수신:', data);
       } catch (e) {
         console.error('[MQTT] esp/ack JSON 파싱 오류:', e);
+      }
+    } else if (topic === 'esp/task/complete') {
+      try {
+        const data = JSON.parse(message.toString());
+        console.log('[MQTT] esp/task/complete 수신:', data);
+        
+        // 동적 import로 순환 참조 방지
+        const { handleTaskCompletion } = await import('../src/services/taskCompletion.js');
+        await handleTaskCompletion(data);
+      } catch (e) {
+        console.error('[MQTT] esp/task/complete 처리 오류:', e);
       }
     }
   });

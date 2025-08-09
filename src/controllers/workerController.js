@@ -52,9 +52,18 @@ export const finishWork = async (req) => {
   }
 
   try {
-    // TODO: DB에서 작업 상태를 '완료'로 변경
-    console.log(`Worker ${worker_id} of type ${work_type} finished work.`);
-    return new Response(null, { status: 200 });
+    // executeFinishLogic 함수 사용 (하드웨어 신호와 동일한 로직)
+    const { executeFinishLogic } = await import('../services/taskCompletion.js');
+    const result = await executeFinishLogic(worker_id);
+    
+    return new Response(JSON.stringify({
+      worker_id,
+      work_type,
+      ...result
+    }), { 
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
   } catch (error) {
     console.error('Finish work error:', error);
     return new Response('Internal Server Error', { status: 500 });
