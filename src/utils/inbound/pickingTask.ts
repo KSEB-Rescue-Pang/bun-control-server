@@ -44,8 +44,8 @@ export function createPickingTasks(scheduledRack: string[], totes: ToteBox[]): P
 
 export async function savePickingTask(client: DatabaseClient, tasks: PickingTask[]) {
   const query = `
-    INSERT INTO picking_tasks (tote_id, work_type, product_id, quantity, location_id)
-    VALUES ($1, $2, $3, $4, $5)
+    INSERT INTO picking_tasks (tote_id, work_type, product_id, quantity, location_id, priority)
+    VALUES ($1, $2, $3, $4, $5, $6)
   `;
   
   for (const task of tasks) {
@@ -54,7 +54,8 @@ export async function savePickingTask(client: DatabaseClient, tasks: PickingTask
       task.work_type, 
       task.product_id, 
       task.quantity, 
-      task.location_id
+      task.location_id,
+      task.priority
     ]);
   }
 }
