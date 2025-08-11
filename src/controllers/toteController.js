@@ -62,6 +62,7 @@ export const scanTote = async (req) => {
       const tasks = result.rows.map(row => ({
         task_id: row.task_id,
         product_id: row.product_id,
+         product_weight: row.product_weight,
         product_name: row.product_name,
         quantity: row.quantity,
         location_id: row.location_id,
