@@ -4,7 +4,7 @@ COPY products(product_id, name, weight, length, width, height, expiration_date, 
 FROM '/app/db/csv/products.csv' DELIMITER ',' CSV HEADER;
 
 -- inbound_list
-COPY inbound_list(inbound_id, product_id, arrival_time)
+COPY inbound_list(inbound_id, product_id, arrival_time, status)
 FROM '/app/db/csv/inbound_list.csv' DELIMITER ',' CSV HEADER;
 
 -- outbound_list
