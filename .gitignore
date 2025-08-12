@@ -23,3 +23,4 @@ yarn-error.log*
 # 빌드 결과물 (만약 dist/ 사용 시)
 dist/
 build/
+CLAUDE.md

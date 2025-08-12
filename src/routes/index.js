@@ -12,11 +12,13 @@ export const router = async (req) => {
     }
     
     // 토트 스캔: POST /{work_type}/{worker_id}/scan
+    // MQTT 통신 -> led 켜기
     if (req.method === 'POST' && pathParts[2] === 'scan') {
       return scanTote(req);
     }
     
     // 작업 완료: POST /{work_type}/{worker_id}/finish
+    // 현재 위치led off 다음 위치에 led 켜기 추가(추가할 상품 없으면 현재위치off만)
     if (req.method === 'POST' && pathParts[2] === 'finish') {
       return finishWork(req);
     }
