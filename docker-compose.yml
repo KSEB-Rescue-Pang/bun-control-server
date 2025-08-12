@@ -15,6 +15,12 @@ services:
       - ./db/csv:/app/db/csv
     env_file:
       - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME} -h localhost -p 5432"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 5s
 
   bun:
     build:
@@ -24,7 +30,8 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       DB_HOST: db
       DB_USER: ${DB_USER}
@@ -32,7 +39,7 @@ services:
       DB_NAME: ${DB_NAME}
       DB_PORT: ${DB_PORT}
     volumes:
-      - ./src:/app/src  # 소스 코드 볼륨 마운트
+      - ./src:/app/src # 소스 코드 볼륨 마운트
     env_file:
       - .env
 
