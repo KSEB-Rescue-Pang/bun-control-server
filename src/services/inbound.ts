@@ -26,7 +26,7 @@ export async function runToteAssignmentService(): Promise<ToteBox[]> {
   }
 
   const activeToteIds = await getActiveToteIds();
-  const availableTotes = getAvailableToteIds(activeToteIds);
+  const availableTotes = getAvailableToteIds(activeToteIds, items);
   const totes = assignToteBoxes(items, availableTotes);
   const totesWithLocations = assignRandomLocations('A', totes);
   
