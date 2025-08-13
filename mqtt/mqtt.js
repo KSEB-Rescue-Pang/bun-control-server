@@ -45,13 +45,6 @@ function ensureClient() {
       }
     });
     
-    singletonClient.subscribe('esp/task/complete', { qos: 1 }, (err) => {
-      if (err) {
-        console.error('[MQTT] esp/task/complete 구독 실패:', err);
-      } else {
-        console.log('[MQTT] esp/task/complete 구독 완료');
-      }
-    });
   });
 
   singletonClient.on('reconnect', () => console.log('[MQTT] 재연결 시도 중...'));
@@ -64,19 +57,15 @@ function ensureClient() {
       try {
         const data = JSON.parse(message.toString());
         console.log('[MQTT] esp/ack 수신:', data);
-      } catch (e) {
-        console.error('[MQTT] esp/ack JSON 파싱 오류:', e);
-      }
-    } else if (topic === 'esp/task/complete') {
-      try {
-        const data = JSON.parse(message.toString());
-        console.log('[MQTT] esp/task/complete 수신:', data);
         
-        // 동적 import로 순환 참조 방지
-        const { handleTaskCompletion } = await import('../src/services/taskCompletion.js');
-        await handleTaskCompletion(data);
+        // location_id, worker_id, code가 모두 있으면 작업 완료 처리
+        if (data.location_id && data.worker_id && data.code) {
+          // 동적 import로 순환 참조 방지
+          const { handleTaskCompletion } = await import('../src/services/taskCompletion.js');
+          await handleTaskCompletion(data);
+        }
       } catch (e) {
-        console.error('[MQTT] esp/task/complete 처리 오류:', e);
+        console.error('[MQTT] esp/ack 처리 오류:', e);
       }
     }
   });

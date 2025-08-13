@@ -1,4 +1,4 @@
-import { loginWorker, finishWork, returnTote, reportError } from '../controllers/workerController.js';
+import { loginWorker, finishWork, returnTote, reportError, getErrorStatus } from '../controllers/workerController.js';
 import { scanTote } from '../controllers/toteController.js';
 
 export const router = async (req) => {
@@ -21,6 +21,11 @@ export const router = async (req) => {
     // 현재 위치led off 다음 위치에 led 켜기 추가(추가할 상품 없으면 현재위치off만)
     if (req.method === 'POST' && pathParts[2] === 'finish') {
       return finishWork(req);
+    }
+    
+    // 에러 상태 확인: GET /{work_type}/{worker_id}/error-status
+    if (req.method === 'GET' && pathParts[2] === 'error-status') {
+      return getErrorStatus(req);
     }
     
     // 토트박스 반납: POST /{work_type}/{worker_id}/return

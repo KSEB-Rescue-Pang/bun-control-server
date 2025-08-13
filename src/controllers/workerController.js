@@ -52,20 +52,88 @@ export const finishWork = async (req) => {
   }
 
   try {
-    // executeFinishLogic 함수 사용 (하드웨어 신호와 동일한 로직)
-    const { executeFinishLogic } = await import('../services/taskCompletion.js');
-    const result = await executeFinishLogic(worker_id);
+    // Request Body에서 location_id 추출
+    const body = await req.json();
+    const { location_id } = body;
+
+    if (!location_id) {
+      return new Response('location_id is required in request body', { status: 400 });
+    }
+
+    // handleTaskCompletion 함수 사용 (하드웨어 code: "good"와 동일한 로직)
+    const { handleTaskCompletion, clearWorkerErrorState } = await import('../services/taskCompletion.js');
+    await handleTaskCompletion({
+      location_id,
+      worker_id,
+      code: "good"
+    });
+    
+    // 에러 상태 제거 (수동 처리 완료)
+    clearWorkerErrorState(worker_id);
     
     return new Response(JSON.stringify({
       worker_id,
       work_type,
-      ...result
+      location_id,
+      message: "작업이 완료 처리되었습니다."
     }), { 
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     });
   } catch (error) {
     console.error('Finish work error:', error);
+    if (error instanceof SyntaxError) {
+      return new Response('Invalid JSON in request body', { status: 400 });
+    }
+    return new Response('Internal Server Error', { status: 500 });
+  }
+};
+
+export const getErrorStatus = async (req) => {
+  const url = new URL(req.url);
+  const pathParts = url.pathname.split('/').filter(Boolean);
+
+  // URL 형식 검증: /{work_type}/{worker_id}/error-status
+  if (pathParts.length !== 3 || pathParts[2] !== 'error-status') {
+    return new Response('Invalid URL format', { status: 400 });
+  }
+
+  const work_type = pathParts[0];
+  const worker_id = pathParts[1];
+
+  // 파라미터 검증
+  if (!['IB', 'OB'].includes(work_type)) {
+    return new Response('Invalid work_type. Must be IB or OB', { status: 400 });
+  }
+  if (!worker_id || worker_id.length < 4) {
+    return new Response('Invalid worker_id', { status: 400 });
+  }
+
+  try {
+    // 에러 상태 조회
+    const { getWorkerErrorState } = await import('../services/taskCompletion.js');
+    const errorState = getWorkerErrorState(worker_id);
+    
+    if (errorState) {
+      return new Response(JSON.stringify({
+        hasError: true,
+        location_id: errorState.location_id,
+        code: errorState.code,
+        timestamp: errorState.timestamp
+      }), { 
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    } else {
+      return new Response(JSON.stringify({
+        hasError: false
+      }), { 
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+  } catch (error) {
+    console.error('Get error status error:', error);
     return new Response('Internal Server Error', { status: 500 });
   }
 };

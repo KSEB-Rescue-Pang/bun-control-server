@@ -1,6 +1,9 @@
 import { createConnection, closeConnection } from '../../db/index.js';
 import { publishAssignToShelf } from '../../mqtt/mqtt.js';
 
+// 작업자별 에러 상태 저장 (메모리 기반)
+const workerErrorStates = new Map();
+
 /**
  * 하드웨어에서 전송된 작업 완료 신호 처리
  * @param {Object} data - {location_id, worker_id, code}
@@ -13,9 +16,18 @@ export async function handleTaskCompletion(data) {
     return;
   }
   
-  // 에러 코드인 경우 로그만 남기고 수동 처리 대기
+  // 에러 코드인 경우 에러 상태 저장
   if (code !== 'good') {
     console.log(`[TaskCompletion] 에러 신호 수신 - worker: ${worker_id}, location: ${location_id}, code: ${code}`);
+    
+    // 작업자별 에러 상태 저장
+    workerErrorStates.set(worker_id, {
+      location_id,
+      code,
+      timestamp: new Date().toISOString()
+    });
+    
+    console.log(`[TaskCompletion] 에러 상태 저장됨 - worker: ${worker_id}`);
     return;
   }
   
@@ -26,6 +38,27 @@ export async function handleTaskCompletion(data) {
   } catch (error) {
     console.error('[TaskCompletion] 자동 완료 처리 실패:', error);
   }
+}
+
+/**
+ * 작업자의 에러 상태 조회
+ * @param {string} worker_id 
+ * @returns {Object|null} 에러 상태 또는 null
+ */
+export function getWorkerErrorState(worker_id) {
+  return workerErrorStates.get(worker_id) || null;
+}
+
+/**
+ * 작업자의 에러 상태 제거
+ * @param {string} worker_id 
+ */
+export function clearWorkerErrorState(worker_id) {
+  const removed = workerErrorStates.delete(worker_id);
+  if (removed) {
+    console.log(`[TaskCompletion] 에러 상태 제거됨 - worker: ${worker_id}`);
+  }
+  return removed;
 }
 
 /**
