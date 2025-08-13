@@ -65,7 +65,7 @@ export async function getOutboundToteItems() {
       JOIN products p ON ti.product_id = p.product_id
       WHERE ti.outbound_id IS NOT NULL
         AND ti.location_id IS NOT NULL
-        AND ti.tote_id LIKE 'TOTE-2%'
+        AND ti.tote_id LIKE 'OUT-TOTE-%'
       ORDER BY ti.tote_id, ti.location_id
     `;
     
