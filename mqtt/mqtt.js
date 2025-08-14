@@ -63,6 +63,9 @@ function ensureClient() {
           // 동적 import로 순환 참조 방지
           const { handleTaskCompletion } = await import('../src/services/taskCompletion.js');
           await handleTaskCompletion(data);
+          
+          // WebSocket으로 Flutter에 실시간 알림 전송
+          await sendWebSocketNotification(data);
         }
       } catch (e) {
         console.error('[MQTT] esp/ack 처리 오류:', e);
@@ -97,4 +100,35 @@ export function publishAssignToShelf(shelfId, payload, { qos = 1, retain = false
       resolve();
     });
   });
+}
+
+// WebSocket 알림 전송 함수
+async function sendWebSocketNotification(data) {
+  try {
+    // 동적 import로 workerWebSockets Map 가져오기
+    const { workerWebSockets } = await import('../app.js');
+    
+    const { worker_id, location_id, code } = data;
+    
+    // 작업자의 WebSocket 연결 찾기 (IB, OB 모든 타입 확인)
+    const possibleKeys = [`IB_${worker_id}`, `OB_${worker_id}`];
+    
+    for (const key of possibleKeys) {
+      const ws = workerWebSockets.get(key);
+      if (ws) {
+        const notification = {
+          type: code === 'good' ? 'task_completed' : 'task_error',
+          location_id,
+          worker_id,
+          code,
+          timestamp: new Date().toISOString()
+        };
+        
+        console.log(`[WebSocket] ${key}에게 알림 전송:`, notification);
+        ws.send(JSON.stringify(notification));
+      }
+    }
+  } catch (e) {
+    console.error('[WebSocket] 알림 전송 실패:', e);
+  }
 }
