@@ -1,26 +1,26 @@
 ﻿product_id,name,weight,length,width,height,expiration_date,category,is_stackable,is_fragile,orientation,danger_class,turnover_rate,seasonal_tag,promotion,img
-1,생수 500ml 4묶음,2.1,0.14,0.14,0.22,2027-08-10,음료,True,False,True,,0.87,,False,png
-2,탄산음료 1.5L,1.6,0.09,0.09,0.32,2027-08-10,음료,True,True,False,,0.4,,False,png
-3,컵라면 15개,1.2,0.4,0.3,0.15,2026-11-06,즉석식품,True,False,True,,0.77,,False,png
-4,두유 10팩,1.0,0.25,0.1,0.15,2026-03-13,음료,True,False,True,,0.34,,False,png
-5,전기포트,2.5,0.25,0.2,0.25,,소형가전,False,True,False,,0.23,,False,png
-6,무선청소기,4.0,0.35,0.25,1.1,,생활가전,False,True,False,,0.15,,True,png
-7,선풍기,4.0,0.45,0.45,0.6,,생활가전,False,True,False,,0.27,여름,False,png
-8,전기장판,4.0,0.5,0.4,0.2,,생활가전,True,False,True,,0.11,겨울,False,png
-9,휴지 15롤,3.0,0.3,0.3,0.4,,생필품,True,False,True,,0.66,,True,png
-10,세제 500m 2개,1.0,0.14,0.07,0.22,,생필품,False,False,True,2,0.57,,False,png
-11,세탁세제 리필,1.5,0.25,0.08,0.3,,생필품,True,False,True,,0.71,,False,png
-12,페브리즈,0.5,0.6,0.6,0.25,,생활용품,False,True,False,,0.8,,False,png
-13,물티슈 100매,0.6,0.2,0.1,0.08,,생필품,True,False,True,,0.84,,False,png
-14,보조배터리,1.0,0.1,0.07,0.04,,생활가전,True,False,True,,0.28,,False,png
-15,손선풍기,0.5,0.1,0.06,0.2,,생활가전,True,False,True,,0.32,여름,False,png
-16,무선마우스,0.6,0.06,0.06,0.05,,생활가전,True,False,True,,0.31,,False,png
-17,노트북가방,1.2,0.4,0.3,0.1,,패션소품,True,False,True,,0.25,,False,png
-18,비타민 세트,0.5,0.15,0.15,0.1,2026-03-13,건강식품,True,False,True,,0.68,,True,png
-19,샴푸 1L,1.1,0.08,0.08,0.27,,미용,False,False,False,,0.65,,False,png
-20,마스크팩 10매,0.25,0.25,0.15,0.04,,화장품,True,False,True,,0.41,,False,png
-21,핸드크림 3개,0.3,0.15,0.05,0.1,,미용,True,False,False,,0.46,겨울,False,png
-22,휴대용 가스버너,2.5,0.35,0.28,0.12,,생필품,True,True,True,,0.15,,True,png
-23,세면타올 3개 세트,0.9,0.3,0.25,0.1,,생필품,True,False,True,,0.55,,False,png
-24,전기토스터,1.8,0.32,0.2,0.22,,생활가전,True,True,False,,0.34,,False,png
-25,LED 스탠드 조명 ,2.0,0.25,0.2,0.45,,생활가전,False,False,False,,0.27,,False,png
+1,생수 500ml 4묶음,2.1,0.14,0.14,0.22,2027-08-10,음료,True,False,True,,0.87,,False,/images/products/생수4개.png
+2,탄산음료 1.5L,1.6,0.09,0.09,0.32,2027-08-10,음료,True,True,False,,0.4,,False,/images/products/탄산음료.jpeg
+3,컵라면 15개,1.2,0.4,0.3,0.15,2026-11-06,즉석식품,True,False,True,,0.77,,False,/images/products/컵라면15개.jpeg
+4,두유 10팩,1.0,0.25,0.1,0.15,2026-03-13,음료,True,False,True,,0.34,,False,/images/products/두유10팩.jpeg
+5,전기포트,2.5,0.25,0.2,0.25,,소형가전,False,True,False,,0.23,,False,/images/products/전기포트.jpeg
+6,무선청소기,4.0,0.35,0.25,1.1,,생활가전,False,True,False,,0.15,,True,/images/products/무선청소기.jpeg
+7,선풍기,4.0,0.45,0.45,0.6,,생활가전,False,True,False,,0.27,여름,False,/images/products/선풍기.jpeg
+8,전기장판,4.0,0.5,0.4,0.2,,생활가전,True,False,True,,0.11,겨울,False,/images/products/전기장판.jpeg
+9,휴지 15롤,3.0,0.3,0.3,0.4,,생필품,True,False,True,,0.66,,True,/images/products/휴지15롤.jpeg
+10,세제 500m 2개,1.0,0.14,0.07,0.22,,생필품,False,False,True,2,0.57,,False,/images/products/세제500ml.jpeg
+11,세탁세제 리필,1.5,0.25,0.08,0.3,,생필품,True,False,True,,0.71,,False,/images/products/세탁세제리필.jpeg
+12,페브리즈,0.5,0.6,0.6,0.25,,생활용품,False,True,False,,0.8,,False,/images/products/페브리즈.jpeg
+13,물티슈 100매,0.6,0.2,0.1,0.08,,생필품,True,False,True,,0.84,,False,/images/products/물티슈100매.jpeg
+14,보조배터리,1.0,0.1,0.07,0.04,,생활가전,True,False,True,,0.28,,False,/images/products/보조배터리.jpeg
+15,손선풍기,0.5,0.1,0.06,0.2,,생활가전,True,False,True,,0.32,여름,False,/images/products/손선풍기.jpeg
+16,무선마우스,0.6,0.06,0.06,0.05,,생활가전,True,False,True,,0.31,,False,/images/products/무선마우스.jpeg
+17,노트북가방,1.2,0.4,0.3,0.1,,패션소품,True,False,True,,0.25,,False,/images/products/노트북가방.jpeg
+18,비타민 세트,0.5,0.15,0.15,0.1,2026-03-13,건강식품,True,False,True,,0.68,,True,/images/products/비타민세트.jpeg
+19,샴푸 1L,1.1,0.08,0.08,0.27,,미용,False,False,False,,0.65,,False,/images/products/샴푸1L.jpeg
+20,마스크팩 10매,0.25,0.25,0.15,0.04,,화장품,True,False,True,,0.41,,False,/images/products/마스크팩10매.jpeg
+21,핸드크림 3개,0.3,0.15,0.05,0.1,,미용,True,False,False,,0.46,겨울,False,/images/products/핸드크림3개.jpeg
+22,휴대용 가스버너,2.5,0.35,0.28,0.12,,생필품,True,True,True,,0.15,,True,/images/products/휴대용가스버너.jpeg
+23,세면타올 3개 세트,0.9,0.3,0.25,0.1,,생필품,True,False,True,,0.55,,False,/images/products/세면타올3개.jpeg
+24,전기토스터,1.8,0.32,0.2,0.22,,생활가전,True,True,False,,0.34,,False,/images/products/전기토스터.jpeg
+25,LED 스탠드 조명 ,2.0,0.25,0.2,0.45,,생활가전,False,False,False,,0.27,,False,/images/products/led스탠드조명.jpeg
