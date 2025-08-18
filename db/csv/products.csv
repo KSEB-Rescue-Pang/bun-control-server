@@ -1,6 +1,6 @@
 ﻿product_id,name,weight,length,width,height,expiration_date,category,is_stackable,is_fragile,orientation,danger_class,turnover_rate,seasonal_tag,promotion,img
-1,생수 500ml 4묶음,2.1,0.14,0.14,0.22,2027-08-10,음료,True,False,True,,0.87,,False,/images/products/생수4개.png
-2,탄산음료 1.5L,1.6,0.09,0.09,0.32,2027-08-10,음료,True,True,False,,0.4,,False,/images/products/탄산음료.jpeg
+1,생수 500ml 4묶음,0.1,0.14,0.14,0.22,2027-08-10,음료,True,False,True,,0.87,,False,/images/products/생수4개.png
+2,탄산음료 1.5L,0.05,0.09,0.09,0.32,2027-08-10,음료,True,True,False,,0.4,,False,/images/products/탄산음료.jpeg
 3,컵라면 15개,1.2,0.4,0.3,0.15,2026-11-06,즉석식품,True,False,True,,0.77,,False,/images/products/컵라면15개.jpeg
 4,두유 10팩,1.0,0.25,0.1,0.15,2026-03-13,음료,True,False,True,,0.34,,False,/images/products/두유10팩.jpeg
 5,전기포트,2.5,0.25,0.2,0.25,,소형가전,False,True,False,,0.23,,False,/images/products/전기포트.jpeg
