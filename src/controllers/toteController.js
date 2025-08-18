@@ -83,7 +83,7 @@ export const scanTote = async (req) => {
           .filter(t => t.location_id === firstTask.location_id)
           .map(t => ({
             product_id: String(t.product_id),
-            weight: t.product_weight != null ? String(t.product_weight) : null,
+            weight: t.product_weight != null ? parseFloat(t.product_weight) : 0.0,
             quantity: t.quantity,
           }));
 

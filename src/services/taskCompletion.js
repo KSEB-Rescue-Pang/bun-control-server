@@ -178,7 +178,7 @@ async function publishNextTaskToMqtt(nextTask, worker_id, work_type) {
       work_type,
       products: [{
         product_id: String(nextTask.product_id),
-        weight: nextTask.weight != null ? String(nextTask.weight) : null,
+        weight: nextTask.weight != null ? parseFloat(nextTask.weight) : 0.0,
         quantity: nextTask.quantity,
       }]
     };
